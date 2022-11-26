@@ -1,3 +1,5 @@
+[![CI](https://github.com/alessandrocandolini/categorical-parsing/actions/workflows/ci.yml/badge.svg)](https://github.com/alessandrocandolini/categorical-parsing/actions/workflows/ci.yml) [![codecov](https://codecov.io/gh/alessandrocandolini/categorical-parsing/branch/main/graph/badge.svg?token=0yn0y8khDX)](https://codecov.io/gh/alessandrocandolini/categorical-parsing)
+
 # categorical-parsing
 
 ## How to build and run locally
