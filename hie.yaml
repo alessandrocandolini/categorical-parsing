@@ -1,0 +1,14 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "categorical-parsing:lib"
+
+    - path: "./app/Main.hs"
+      component: "categorical-parsing:exe:categorical-parsing-exe"
+
+    - path: "./app/Paths_categorical-parsing.hs"
+      component: "categorical-parsing:exe:categorical-parsing-exe"
+
+    - path: "./test"
+      component: "categorical-parsing:test:categorical-parsing-test"
+
