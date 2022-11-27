@@ -12,6 +12,7 @@ dependencies:
 - optparse-generic
 - aeson
 - generic-aeson
+- natural-transformation
 
 default-extensions:
 - OverloadedStrings

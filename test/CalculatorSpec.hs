@@ -1,6 +1,6 @@
 module CalculatorSpec where
 
-import App
+import Calculator
 import Test.Hspec
 import Test.Hspec.QuickCheck
 import Test.QuickCheck.Property
@@ -8,8 +8,8 @@ import Test.QuickCheck.Property
 spec :: Spec
 spec = describe "Simple test" $ do
 
-     it "example-based unit test" $
-        1 `shouldBe` 1
+     it "evaluate ast" $
+        evaluate (Multiply (Lit 4) (Add (Lit 2) (Lit 3))) `shouldBe` 20
 
      prop "property-based unit test" $
         \l -> reverse ( reverse l ) == ( l::[Int])

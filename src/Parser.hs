@@ -4,8 +4,9 @@ module Parser where
 import Control.Monad (mfilter, (>=>))
 import Data.Functor
 import Control.Applicative 
-import Data.Char (isDigit)
+import Data.Char (isDigit, isSpace)
 import Control.Monad.State
+import Control.Natural
 
 type Parser a = CoreParser Maybe String a 
 
@@ -64,3 +65,6 @@ bool = true <|> false where
 
 int :: Parser Int
 int = fmap read (some digit)
+
+ws :: Parser String
+ws = some (mfilter isSpace anyChar) 

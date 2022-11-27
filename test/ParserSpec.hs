@@ -26,6 +26,12 @@ spec = describe "Simple test" $ do
      it "int fails to parse empty string" $ 
         run int "" `shouldBe` Nothing 
 
+     it "ws can parse successfully empty spaces" $ 
+        run ws "   \n\t  " `shouldBe` Just "   \n\t  "
+
+     it "ws fail to parse empty string" $ 
+        run ws "" `shouldBe` Nothing
+
      prop "parse any int" $
         \i -> i >= 0 ==> run int (show i) `shouldBe` Just i 
 
