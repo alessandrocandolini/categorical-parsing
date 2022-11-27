@@ -13,6 +13,8 @@ dependencies:
 - aeson
 - generic-aeson
 - natural-transformation
+- recursion-schemes  
+- data-fix
 
 default-extensions:
 - OverloadedStrings
