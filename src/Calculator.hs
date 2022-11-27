@@ -14,23 +14,19 @@ data AstF a b =
 
 type Ast a = Fix(AstF a )
 
+-- remove in prod
 instance Num a => Num (Ast a) where
   a1 + a2 = Fix $AddF a1 a2
   a1 * a2 = Fix $ MultiplyF a1 a2
   fromInteger = Fix . LitF . fromInteger
 
-evalAlg :: Num a => AstF a a -> a
-evalAlg (LitF a) = a
-evalAlg (AddF a1 a2) = a1 + a2
-evalAlg (MultiplyF a1 a2) = a1 * a2
+algebra :: Num a => AstF a a -> a
+algebra (LitF a) = a
+algebra (AddF a1 a2) = a1 + a2
+algebra (MultiplyF a1 a2) = a1 * a2
 
 evaluate :: Num a => Ast a -> a
-evaluate = cata evalAlg
-
---evaluate :: Num a => Ast a  -> a
---evaluate (Add v1 v2) = evaluate v1 + evaluate v2
---evaluate (Multiply v1 v2) = evaluate v1 * evaluate v2
---evaluate (Lit a) = a
+evaluate = cata algebra
 
 ast :: Parser a -> Parser (Ast a)
 ast = undefined -- add <|> multiply <|> lit

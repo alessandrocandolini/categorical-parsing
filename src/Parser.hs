@@ -1,18 +1,16 @@
 {-# LANGUAGE DeriveFunctor #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-module Parser where
-import Control.Monad (mfilter, (>=>))
+module Parser(run, Parser, string, digit, int, bool,spaces) where
 import Data.Functor
-import Control.Applicative 
+import Control.Applicative
 import Data.Char (isDigit, isSpace)
 import Control.Monad.State
-import Control.Natural
 
-type Parser a = CoreParser Maybe String a 
+type Parser a = ParserBase Maybe String a
 
-newtype CoreParser m s a = Parser {
-   unparse :: StateT s m a 
-   } deriving (Functor, Applicative, Monad, Alternative, MonadPlus) 
+newtype ParserBase m s a = Parser {
+   unparse :: StateT s m a
+   } deriving (Functor, Applicative, Monad, Alternative, MonadPlus)
 
 {--
 newtype Parser a = Parser {
@@ -64,7 +62,7 @@ bool = true <|> false where
    false = string "False" $> False
 
 int :: Parser Int
-int = fmap read (some digit)
+int = (fmap read . some) digit
 
-ws :: Parser String
-ws = some (mfilter isSpace anyChar) 
+spaces :: Parser String
+spaces = (some . mfilter isSpace) anyChar

@@ -14,26 +14,26 @@ spec = describe "Simple test" $ do
      it "parse false" $
         run bool "False" `shouldBe` Just False
 
-     it "parse valid digit" $ 
+     it "parse valid digit" $
         run digit "1" `shouldBe` Just '1'
-     
-     it "fail to parse empty string as digit" $ 
-        run digit "" `shouldBe` Nothing 
 
-     it "fail to parse strings with more than one char as digits" $ 
-        run digit "12" `shouldBe` Nothing 
+     it "fail to parse empty string as digit" $
+        run digit "" `shouldBe` Nothing
 
-     it "int fails to parse empty string" $ 
-        run int "" `shouldBe` Nothing 
+     it "fail to parse strings with more than one char as digits" $
+        run digit "12" `shouldBe` Nothing
 
-     it "ws can parse successfully empty spaces" $ 
-        run ws "   \n\t  " `shouldBe` Just "   \n\t  "
+     it "int fails to parse empty string" $
+        run int "" `shouldBe` Nothing
 
-     it "ws fail to parse empty string" $ 
-        run ws "" `shouldBe` Nothing
+     it "ws can parse successfully empty spaces" $
+        run spaces "   \n\t  " `shouldBe` Just "   \n\t  "
+
+     it "ws fail to parse empty string" $
+        run spaces "" `shouldBe` Nothing
 
      prop "parse any int" $
-        \i -> i >= 0 ==> run int (show i) `shouldBe` Just i 
+        \i -> i >= 0 ==> run int (show i) `shouldBe` Just i
 
      it "fail to parse wrong int" $
         run int "a10b" `shouldBe` Nothing
