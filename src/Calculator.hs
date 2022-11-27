@@ -8,7 +8,6 @@ import Parser
 import Data.Fix(Fix(..))
 import Data.Functor.Foldable (cata)
 import Control.Applicative
-import Data.Functor.Classes
 import Text.Show.Deriving
 import Data.Eq.Deriving
 
@@ -21,7 +20,6 @@ $(deriveShow1 ''AstF)
 $(deriveEq1 ''AstF)
 
 type Ast a = Fix(AstF a )
-
 
 lit :: a -> Ast a
 lit = Fix . LitF
@@ -59,8 +57,6 @@ parser p = litP <|> addP <|> multiplyP where
       _ <- surround spaces (char '*')
       a2 <- parser p
       return $ multiply a1 a2
-
-
 
 parse:: String -> Maybe (Ast Integer)
 parse = run (parser int)
