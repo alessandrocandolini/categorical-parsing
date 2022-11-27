@@ -23,12 +23,14 @@ spec = describe "Simple test" $ do
      it "parse valid (nested case)" $
         (parse "(4*(3+2))") `shouldBe` Just (4 * (3+2))
 
+     it "parse valid (nested case with spaces)" $
+        (parse "(4 *(3 + 2))") `shouldBe` Just (4 * (3+2))
+
      it "evaluate parse valid (simple case)" $
         fmap evaluate (parse "(3+2)") `shouldBe` Just 5
 
      it "evaluate parse valid (simple case)" $
         fmap evaluate (parse "(4*(3+2))") `shouldBe` Just 20
-
 
      prop "property-based unit test" $
         \l -> reverse ( reverse l ) == ( l::[Int])

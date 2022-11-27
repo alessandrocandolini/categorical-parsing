@@ -51,12 +51,12 @@ parser p = litP <|> addP <|> multiplyP where
    litP = lit <$> p
    addP = parenthesis $ do
       a1 <- parser p
-      _ <- char '+'
+      _ <- surround spaces (char '+')
       a2 <- parser p
       return $ add a1 a2
    multiplyP = parenthesis $ do
       a1 <- parser p
-      _ <- char '*'
+      _ <- surround spaces (char '*')
       a2 <- parser p
       return $ multiply a1 a2
 
