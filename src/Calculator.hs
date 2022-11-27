@@ -10,11 +10,13 @@ import Data.Functor.Foldable (cata)
 import Control.Applicative
 import Text.Show.Deriving
 import Data.Eq.Deriving
+import Data.Functor
 
 data AstF a b =
-   AddF b b |
-   MultiplyF  b b |
+   BinaryF Operation b b |
    LitF a deriving (Show, Eq, Functor, Foldable)
+
+data Operation = Plus | Multiply deriving (Eq, Show)
 
 $(deriveShow1 ''AstF)
 $(deriveEq1 ''AstF)
@@ -24,39 +26,40 @@ type Ast a = Fix(AstF a )
 lit :: a -> Ast a
 lit = Fix . LitF
 
+binary :: Operation -> Ast a -> Ast a -> Ast a
+binary o a1 a2 = Fix $ BinaryF o a1 a2
+
 add :: Ast a -> Ast a -> Ast a
-add a1 a2 = Fix $ AddF a1 a2
+add = binary Plus
 
 multiply :: Ast a -> Ast a -> Ast a
-multiply a1 a2 = Fix $ MultiplyF a1 a2
+multiply = binary Multiply
 
 -- remove in prod
 instance Num a => Num (Ast a) where
   (+) = add
   (*) = multiply
-  fromInteger = Fix . LitF . fromInteger
+  fromInteger = lit . fromInteger
 
 algebra :: Num a => AstF a a -> a
 algebra (LitF a) = a
-algebra (AddF a1 a2) = a1 + a2
-algebra (MultiplyF a1 a2) = a1 * a2
+algebra (BinaryF Plus a1 a2) = a1 + a2
+algebra (BinaryF Multiply a1 a2) = a1 * a2
 
 evaluate :: Num a => Ast a -> a
 evaluate = cata algebra
 
+operation :: Parser Operation
+operation = surround spaces $ char '+' $> Plus <|> char '*' $> Multiply
+
 parser :: Parser a -> Parser (Ast a)
-parser p = litP <|> addP <|> multiplyP where
+parser p = litP <|> binaryP where
    litP = lit <$> p
-   addP = parenthesis $ do
+   binaryP = parenthesis $ do
       a1 <- parser p
-      _ <- surround spaces (char '+')
+      o <- operation
       a2 <- parser p
-      return $ add a1 a2
-   multiplyP = parenthesis $ do
-      a1 <- parser p
-      _ <- surround spaces (char '*')
-      a2 <- parser p
-      return $ multiply a1 a2
+      return $ binary o a1 a2
 
 parse:: String -> Maybe (Ast Integer)
 parse = run (parser int)
