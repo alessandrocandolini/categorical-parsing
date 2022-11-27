@@ -29,8 +29,11 @@ spec = describe "Simple test" $ do
      it "ws can parse successfully empty spaces" $
         run spaces "   \n\t  " `shouldBe` Just "   \n\t  "
 
-     it "ws fail to parse empty string" $
-        run spaces "" `shouldBe` Nothing
+     it "parse between braces (simple case)" $
+        run (char '(' *> int <* char ')')  "(10)" `shouldBe` Just 10
+
+     it "parse between braces (simple case)" $
+          run (between '(' ')' int) " ( 10  )" `shouldBe` Just 10
 
      prop "parse any int" $
         \i -> i >= 0 ==> run int (show i) `shouldBe` Just i

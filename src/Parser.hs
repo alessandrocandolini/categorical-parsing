@@ -1,6 +1,6 @@
 {-# LANGUAGE DeriveFunctor #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-module Parser(run, Parser, string, digit, int, bool,spaces) where
+module Parser where
 import Data.Functor
 import Control.Applicative
 import Data.Char (isDigit, isSpace)
@@ -39,8 +39,10 @@ anyChar = Parser p where
    p (c : cs) = Just (cs,c)
 --}
 
-run :: Parser a -> String -> Maybe a
-run p = fmap fst . mfilter (null . snd) . runStateT (unparse p)
+run :: (MonadPlus m, Eq s, Monoid s) => ParserBase m s a -> s -> m a
+run p = fmap fst
+       . mfilter ((==) mempty . snd)
+       . runStateT (unparse p)
 
 anyChar :: Parser Char
 anyChar = Parser (StateT p) where
@@ -66,3 +68,9 @@ int = (fmap read . some) digit
 
 spaces :: Parser String
 spaces = (some . mfilter isSpace) anyChar
+
+surround :: MonadPlus m => ParserBase m s a -> ParserBase m s b -> ParserBase m s b
+surround p1 p2 = many p1 *> p2 <* many p1
+
+between :: Char -> Char -> ParserBase Maybe String a -> ParserBase Maybe String a
+between s e p = surround spaces (char s) *> p <* surround spaces (char e)
