@@ -10,7 +10,7 @@ This way of thinking seems particularly appealing in other areas of applied math
 
 This way of thinking will be illustrated here in building from scratch a small library of "parser combinators", ie, an approach to parsing where the parser is indirectly defined by it's behaviour. The code shows how to create combinators that allow to create new parsers from existing ones. We will see in particular that after defining a single basic parser capable of parsing any char, we can build from scratch (and in few lines of haskell code) much more complex parsers (eg, json parsing, or parser of a simple arithmetic expression). 
 
-A cornestone paper in this area is the one from [Hutton and Mejier (1996)](https://www.cs.nott.ac.uk/~pszgmh/monparsing.pdf), culminating in the early development of [parsec]( https://hackage.haskell.org/package/parsec), an industrial-strength parser combinator library which later has inspired the development of other production-grade parser combinator libraries in the Haskell ecosystem, notably [attoparsec](https://hackage.haskell.org/package/attoparsec) and [megaparsec](https://hackage.haskell.org/package/megaparsec). The paper is highly recommended. 
+A cornestone paper in this area is the one from [Hutton and Mejier (1996)](https://www.cs.nott.ac.uk/~pszgmh/monparsing.pdf), culminating in the early development of [parsec]( https://hackage.haskell.org/package/parsec), an industrial-strength parser combinator library which later has inspired the development of other forks in the Haskell ecosystem, notably [attoparsec](https://hackage.haskell.org/package/attoparsec) and [megaparsec](https://hackage.haskell.org/package/megaparsec). The paper is highly recommended. 
 
 ## How to build and run locally
 
