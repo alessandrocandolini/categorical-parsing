@@ -13,8 +13,10 @@ dependencies:
 - aeson
 - generic-aeson
 - natural-transformation
-- recursion-schemes  
+- recursion-schemes
 - data-fix
+- template-haskell
+- deriving-compat
 
 default-extensions:
 - OverloadedStrings

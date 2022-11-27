@@ -63,7 +63,7 @@ bool = true <|> false where
    true = string "True" $> True
    false = string "False" $> False
 
-int :: Parser Int
+int :: Parser Integer
 int = (fmap read . some) digit
 
 spaces :: Parser String
@@ -74,3 +74,6 @@ surround p1 p2 = many p1 *> p2 <* many p1
 
 between :: Char -> Char -> ParserBase Maybe String a -> ParserBase Maybe String a
 between s e p = surround spaces (char s) *> p <* surround spaces (char e)
+
+parenthesis :: ParserBase Maybe String a -> ParserBase Maybe String a
+parenthesis = between '(' ')'
