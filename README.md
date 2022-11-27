@@ -36,8 +36,13 @@ which generates a textual and HTML report.
 
 To run the executable,
 ```
-stack exec categorical-parsing-exe
+stack exec categorical-parsing-exe -- -e "(3*(1+2))" 
+> Just 3
+
+stack exec categorical-parsing-exe -- -e "(3(1+2))" 
+> Nothing 
 ```
+
 For faster feedback loop,
 ```
 stack test --fast --file-watch
